@@ -33,8 +33,9 @@ public class WorldGrid : MonoBehaviour
 
     public void PopulateGrid(Vector3 position)
     {
-        int x = (int)position.x;
-        int z = (int)position.z;
+        Vector3 gridPos = position - transform.position;
+        int x = (int)gridPos.x;
+        int z = (int)gridPos.z;
         gridData[x, z] = 1;
     }
 }

@@ -125,6 +125,6 @@ public class InputHandler : MonoBehaviour, ICommand
 
     public void UpdateGrid()
     {
-        grid.PopulateGrid(transform.position - boxStartPos);
+        grid.PopulateGrid(transform.position);
     }
 }

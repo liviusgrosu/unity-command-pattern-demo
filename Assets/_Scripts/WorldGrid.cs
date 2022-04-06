@@ -33,9 +33,23 @@ public class WorldGrid : MonoBehaviour
 
     public void PopulateGrid(Vector3 position)
     {
-        Vector3 gridPos = position - transform.position;
-        int x = (int)gridPos.x;
-        int z = (int)gridPos.z;
+        // Mark grid position as populated
+        (int x, int z) = GetGridPosition(position - transform.position);
         gridData[x, z] = 1;
+    }
+
+    public bool IsWithinBoundary(Vector3 nextPos)
+    {
+        // Check if next position is out of boundary
+        (int x, int z) = GetGridPosition(nextPos - transform.position);
+        return x < width && x >= 0 && z < height && z >= 0;
+    }
+
+    private (int, int) GetGridPosition(Vector3 position)
+    {
+        // Get grid position from vector position
+        int x = (int)position.x;
+        int z = (int)position.z;
+        return (x, z);
     }
 }

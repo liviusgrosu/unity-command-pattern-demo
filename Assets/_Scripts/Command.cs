@@ -45,8 +45,13 @@ public class MoveForward : Command
     //Move the box
     public override void Move(Transform boxTrans, ICommand callback)
     {
-        boxTrans.Translate(boxTrans.forward * moveDistance);
-        callback.UpdateGrid();
+        Vector3 nextPoint = boxTrans.forward * moveDistance; 
+
+        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        {
+            boxTrans.Translate(nextPoint);
+            callback.UpdateGrid();
+        }
     }
 }
 
@@ -72,8 +77,13 @@ public class MoveReverse : Command
     //Move the box
     public override void Move(Transform boxTrans, ICommand callback)
     {
-        boxTrans.Translate(-boxTrans.forward * moveDistance);
-        callback.UpdateGrid();
+        Vector3 nextPoint = -boxTrans.forward * moveDistance; 
+
+        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        {
+            boxTrans.Translate(nextPoint);
+            callback.UpdateGrid();
+        }
     }
 }
 
@@ -99,8 +109,13 @@ public class MoveLeft : Command
     //Move the box
     public override void Move(Transform boxTrans, ICommand callback)
     {
-        boxTrans.Translate(-boxTrans.right * moveDistance);
-        callback.UpdateGrid();
+        Vector3 nextPoint = -boxTrans.right * moveDistance; 
+
+        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        {
+            boxTrans.Translate(nextPoint);
+            callback.UpdateGrid();
+        }
     }
 }
 
@@ -126,8 +141,13 @@ public class MoveRight : Command
     //Move the box
     public override void Move(Transform boxTrans, ICommand callback)
     {
-        boxTrans.Translate(boxTrans.right * moveDistance);
-        callback.UpdateGrid();
+        Vector3 nextPoint = boxTrans.right * moveDistance; 
+
+        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        {
+            boxTrans.Translate(nextPoint);
+            callback.UpdateGrid();
+        }
     }
 }
 

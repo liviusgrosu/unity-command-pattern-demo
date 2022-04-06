@@ -3,6 +3,6 @@ using System.Collections;
 
 public interface ICommand
 {
-    void UpdateGrid();
-    bool BoundaryCheck(Vector3 nextPos);
+    void UpdateGrid(WorldGrid.BlockType blockType);
+    bool IsWithinBoundary(Vector3 nextPos);
 }

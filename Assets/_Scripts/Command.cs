@@ -47,10 +47,10 @@ public class MoveForward : Command
     {
         Vector3 nextPoint = boxTrans.forward * moveDistance; 
 
-        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        if (callback.IsWithinBoundary(boxTrans.position + nextPoint))
         {
             boxTrans.Translate(nextPoint);
-            callback.UpdateGrid();
+            callback.UpdateGrid(WorldGrid.BlockType.populated);
         }
     }
 }
@@ -79,10 +79,10 @@ public class MoveReverse : Command
     {
         Vector3 nextPoint = -boxTrans.forward * moveDistance; 
 
-        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        if (callback.IsWithinBoundary(boxTrans.position + nextPoint))
         {
             boxTrans.Translate(nextPoint);
-            callback.UpdateGrid();
+            callback.UpdateGrid(WorldGrid.BlockType.populated);
         }
     }
 }
@@ -111,10 +111,10 @@ public class MoveLeft : Command
     {
         Vector3 nextPoint = -boxTrans.right * moveDistance; 
 
-        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        if (callback.IsWithinBoundary(boxTrans.position + nextPoint))
         {
             boxTrans.Translate(nextPoint);
-            callback.UpdateGrid();
+            callback.UpdateGrid(WorldGrid.BlockType.populated);
         }
     }
 }
@@ -143,10 +143,10 @@ public class MoveRight : Command
     {
         Vector3 nextPoint = boxTrans.right * moveDistance; 
 
-        if (callback.BoundaryCheck(boxTrans.position + nextPoint))
+        if (callback.IsWithinBoundary(boxTrans.position + nextPoint))
         {
             boxTrans.Translate(nextPoint);
-            callback.UpdateGrid();
+            callback.UpdateGrid(WorldGrid.BlockType.populated);
         }
     }
 }
@@ -174,6 +174,9 @@ public class UndoCommand : Command
         if (oldCommands.Count > 0)
         {
             Command latestCommand = oldCommands[oldCommands.Count - 1];
+
+            // Unpopulate the boxes current position in the grid
+            callback.UpdateGrid(WorldGrid.BlockType.unpopulated);
 
             //Move the box with this command
             latestCommand.Undo(boxTrans);

@@ -7,6 +7,12 @@ public class WorldGrid : MonoBehaviour
     public int width, height;
     private int[,] gridData;
 
+    public enum BlockType
+    {
+        populated = 1,
+        unpopulated = 0
+    }
+
     void Awake()
     {
         gridData = new int[width, height];
@@ -31,11 +37,11 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
-    public void PopulateGrid(Vector3 position)
+    public void PopulateGrid(Vector3 position, BlockType blockType)
     {
         // Mark grid position as populated
         (int x, int z) = GetGridPosition(position - transform.position);
-        gridData[x, z] = 1;
+        gridData[x, z] = (int)blockType;
     }
 
     public bool IsWithinBoundary(Vector3 nextPos)

@@ -34,7 +34,7 @@ public class InputHandler : MonoBehaviour, ICommand
         buttonR = new ReplayCommand();
 
         boxStartPos = boxTrans.position;
-        UpdateGrid();
+        UpdateGrid(WorldGrid.BlockType.populated);
     }
 
 
@@ -124,12 +124,12 @@ public class InputHandler : MonoBehaviour, ICommand
         isReplaying = false;
     }
 
-    public void UpdateGrid()
+    public void UpdateGrid(WorldGrid.BlockType blockType)
     {
-        grid.PopulateGrid(transform.position);
+        grid.PopulateGrid(transform.position, blockType);
     }
 
-    public bool BoundaryCheck(Vector3 nextPos)
+    public bool IsWithinBoundary(Vector3 nextPos)
     {
         return grid.IsWithinBoundary(nextPos);
     }

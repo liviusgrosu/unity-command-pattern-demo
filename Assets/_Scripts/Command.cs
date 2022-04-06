@@ -193,6 +193,7 @@ public class ReplayCommand : Command
 {
     public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
+        callback.RefreshGrid();
         InputHandler.shouldStartReplay = true;
     }
 }

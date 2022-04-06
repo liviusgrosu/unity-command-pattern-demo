@@ -129,6 +129,11 @@ public class InputHandler : MonoBehaviour, ICommand
         grid.PopulateGrid(transform.position, blockType);
     }
 
+    public void RefreshGrid()
+    {
+        grid.RefreshGrid();
+    }
+
     public bool IsWithinBoundary(Vector3 nextPos)
     {
         return grid.IsWithinBoundary(nextPos);

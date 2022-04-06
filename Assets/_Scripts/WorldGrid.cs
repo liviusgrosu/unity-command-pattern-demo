@@ -15,7 +15,7 @@ public class WorldGrid : MonoBehaviour
 
     void Awake()
     {
-        gridData = new int[width, height];
+        RefreshGrid();
     }
 
     void OnDrawGizmos()
@@ -42,6 +42,11 @@ public class WorldGrid : MonoBehaviour
         // Mark grid position as populated
         (int x, int z) = GetGridPosition(position - transform.position);
         gridData[x, z] = (int)blockType;
+    }
+
+    public void RefreshGrid()
+    {
+        gridData = new int[width, height];
     }
 
     public bool IsWithinBoundary(Vector3 nextPos)

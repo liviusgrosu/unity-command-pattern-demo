@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void CommandCallback<T>(T input);
 //The parent class
 public abstract class Command
 {
@@ -9,13 +10,13 @@ public abstract class Command
     protected float moveDistance = 1f;
 
     //Move and maybe save command
-    public abstract void Execute(Transform boxTrans, Command command);
+    public abstract void Execute(Transform boxTrans, Command command, ICommand callback);
 
     //Undo an old command
     public virtual void Undo(Transform boxTrans) { }
 
     //Move the box
-    public virtual void Move(Transform boxTrans) { }
+    public virtual void Move(Transform boxTrans, ICommand callback) { }
 }
 
 
@@ -26,10 +27,10 @@ public abstract class Command
 public class MoveForward : Command
 {
     //Called when we press a key
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         //Move the box
-        Move(boxTrans);
+        Move(boxTrans, callback);
 
         //Save the command
         InputHandler.oldCommands.Add(command);
@@ -42,9 +43,10 @@ public class MoveForward : Command
     }
 
     //Move the box
-    public override void Move(Transform boxTrans)
+    public override void Move(Transform boxTrans, ICommand callback)
     {
         boxTrans.Translate(boxTrans.forward * moveDistance);
+        callback.UpdateGrid();
     }
 }
 
@@ -52,10 +54,10 @@ public class MoveForward : Command
 public class MoveReverse : Command
 {
     //Called when we press a key
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         //Move the box
-        Move(boxTrans);
+        Move(boxTrans, callback);
 
         //Save the command
         InputHandler.oldCommands.Add(command);
@@ -68,9 +70,10 @@ public class MoveReverse : Command
     }
 
     //Move the box
-    public override void Move(Transform boxTrans)
+    public override void Move(Transform boxTrans, ICommand callback)
     {
         boxTrans.Translate(-boxTrans.forward * moveDistance);
+        callback.UpdateGrid();
     }
 }
 
@@ -78,10 +81,10 @@ public class MoveReverse : Command
 public class MoveLeft : Command
 {
     //Called when we press a key
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         //Move the box
-        Move(boxTrans);
+        Move(boxTrans, callback);
 
         //Save the command
         InputHandler.oldCommands.Add(command);
@@ -94,9 +97,10 @@ public class MoveLeft : Command
     }
 
     //Move the box
-    public override void Move(Transform boxTrans)
+    public override void Move(Transform boxTrans, ICommand callback)
     {
         boxTrans.Translate(-boxTrans.right * moveDistance);
+        callback.UpdateGrid();
     }
 }
 
@@ -104,10 +108,10 @@ public class MoveLeft : Command
 public class MoveRight : Command
 {
     //Called when we press a key
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         //Move the box
-        Move(boxTrans);
+        Move(boxTrans, callback);
 
         //Save the command
         InputHandler.oldCommands.Add(command);
@@ -120,9 +124,10 @@ public class MoveRight : Command
     }
 
     //Move the box
-    public override void Move(Transform boxTrans)
+    public override void Move(Transform boxTrans, ICommand callback)
     {
         boxTrans.Translate(boxTrans.right * moveDistance);
+        callback.UpdateGrid();
     }
 }
 
@@ -131,7 +136,7 @@ public class MoveRight : Command
 public class DoNothing : Command
 {
     //Called when we press a key
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         //Nothing will happen if we press this key
     }
@@ -142,7 +147,7 @@ public class DoNothing : Command
 public class UndoCommand : Command
 {
     //Called when we press a key
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         List<Command> oldCommands = InputHandler.oldCommands;
 
@@ -163,7 +168,7 @@ public class UndoCommand : Command
 //Replay all commands
 public class ReplayCommand : Command
 {
-    public override void Execute(Transform boxTrans, Command command)
+    public override void Execute(Transform boxTrans, Command command, ICommand callback)
     {
         InputHandler.shouldStartReplay = true;
     }

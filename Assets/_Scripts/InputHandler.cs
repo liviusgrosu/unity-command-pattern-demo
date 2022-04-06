@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class InputHandler : MonoBehaviour
+public class InputHandler : MonoBehaviour, ICommand
 {
     //The box we control with keys
     public Transform boxTrans;
+    public WorldGrid grid;
     //The different keys we need
     private Command buttonW, buttonS, buttonA, buttonD, buttonB, buttonZ, buttonR;
     //Stores all commands for replay and undo
@@ -53,31 +54,31 @@ public class InputHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            buttonA.Execute(boxTrans, buttonA);
+            buttonA.Execute(boxTrans, buttonA, this);
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
-            buttonB.Execute(boxTrans, buttonB);
+            buttonB.Execute(boxTrans, buttonB, this);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            buttonD.Execute(boxTrans, buttonD);
+            buttonD.Execute(boxTrans, buttonD, this);
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            buttonR.Execute(boxTrans, buttonZ);
+            buttonR.Execute(boxTrans, buttonZ, this);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            buttonS.Execute(boxTrans, buttonS);
+            buttonS.Execute(boxTrans, buttonS, this);
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            buttonW.Execute(boxTrans, buttonW);
+            buttonW.Execute(boxTrans, buttonW, this);
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
-            buttonZ.Execute(boxTrans, buttonZ);
+            buttonZ.Execute(boxTrans, buttonZ, this);
         }
     }
 
@@ -113,12 +114,17 @@ public class InputHandler : MonoBehaviour
         for (int i = 0; i < oldCommands.Count; i++)
         {
             //Move the box with the current command
-            oldCommands[i].Move(boxTrans);
+            oldCommands[i].Move(boxTrans, this);
 
             yield return new WaitForSeconds(0.3f);
         }
 
         //We can move the box again
         isReplaying = false;
+    }
+
+    public void UpdateGrid()
+    {
+        grid.PopulateGrid(transform.position - boxStartPos);
     }
 }

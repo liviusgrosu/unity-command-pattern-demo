@@ -7,8 +7,6 @@ public class KeyRebindMenu : MonoBehaviour
 {
     public InputHandler inputHandler;
     public Dropdown ForwardDropdown, ReverseDropdown, LeftDrowdown, RightDropdown, UndoDropdown, ReplayDropdown;
-    private bool toggleState;
-
     void Start()
     {
         ForwardDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ForwardDropdown); });
@@ -23,11 +21,9 @@ public class KeyRebindMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            toggleState = !toggleState;
-
             foreach (Transform child in transform)
             {
-                child.gameObject.SetActive(toggleState);
+                child.gameObject.SetActive(!child.gameObject.activeSelf);
             }
         }
     }

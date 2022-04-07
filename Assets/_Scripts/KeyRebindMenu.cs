@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class KeyRebind : MonoBehaviour
+public class KeyRebindMenu : MonoBehaviour
 {
     public InputHandler inputHandler;
     public Dropdown ForwardDropdown, ReverseDropdown, LeftDrowdown, RightDropdown, UndoDropdown, ReplayDropdown;
+    private bool toggleState;
 
-    void Start() 
+    void Start()
     {
         ForwardDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ForwardDropdown); });
         ReverseDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ReverseDropdown); });
@@ -17,6 +18,20 @@ public class KeyRebind : MonoBehaviour
         UndoDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(UndoDropdown); });
         ReplayDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ReplayDropdown); });
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            toggleState = !toggleState;
+
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(toggleState);
+            }
+        }
+    }
+
     void Destroy() 
     {
         ForwardDropdown.onValueChanged.RemoveAllListeners();

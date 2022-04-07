@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class KeyRebind : MonoBehaviour
 {
     public InputHandler inputHandler;
-    public Dropdown ForwardDropdown, ReverseDropdown, LeftDrowdown, RightDropdown;
+    public Dropdown ForwardDropdown, ReverseDropdown, LeftDrowdown, RightDropdown, UndoDropdown, ReplayDropdown;
 
     void Start() 
     {
@@ -14,6 +14,8 @@ public class KeyRebind : MonoBehaviour
         ReverseDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ReverseDropdown); });
         LeftDrowdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(LeftDrowdown); });
         RightDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(RightDropdown); });
+        UndoDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(UndoDropdown); });
+        ReplayDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ReplayDropdown); });
     }
     void Destroy() 
     {
@@ -37,6 +39,14 @@ public class KeyRebind : MonoBehaviour
         else if (RightDropdown == target)
         {
             inputHandler.RebindKey("right", target.value);
+        }
+        else if (UndoDropdown == target)
+        {
+            inputHandler.RebindKey("undo", target.value);
+        }
+        else if (ReplayDropdown == target)
+        {
+            inputHandler.RebindKey("replay", target.value);
         }
     }
 }

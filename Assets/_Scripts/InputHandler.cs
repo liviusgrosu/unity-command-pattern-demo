@@ -153,6 +153,12 @@ public class InputHandler : MonoBehaviour, ICommand
             case "right":
                 RebindKey(new MoveRight(), value);
                 break;
+            case "undo":
+                RebindKey(new UndoCommand(), value);
+                break;
+            case "replay":
+                RebindKey(new ReplayCommand(), value);
+                break;
         }
     }
 
@@ -171,6 +177,12 @@ public class InputHandler : MonoBehaviour, ICommand
                 break;
             case 3:
                 buttonD = action;
+                break;
+            case 4:
+                buttonZ = action;
+                break;
+            case 5:
+                buttonR = action;
                 break;
         }
     }

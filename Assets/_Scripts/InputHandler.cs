@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class InputHandler : MonoBehaviour, ICommand
@@ -21,7 +22,6 @@ public class InputHandler : MonoBehaviour, ICommand
     //So we cant press keys while replaying
     private bool isReplaying;
 
-
     void Start()
     {
         //Bind keys with commands
@@ -36,8 +36,6 @@ public class InputHandler : MonoBehaviour, ICommand
         boxStartPos = boxTrans.position;
         UpdateGrid(WorldGrid.BlockType.populated);
     }
-
-
 
     void Update()
     {
@@ -137,5 +135,43 @@ public class InputHandler : MonoBehaviour, ICommand
     public bool IsWithinBoundary(Vector3 nextPos)
     {
         return grid.IsWithinBoundary(nextPos);
+    }
+
+    public void RebindKey(string key, int value)
+    {
+        switch(key)
+        {
+            case "forward":
+                RebindKey(new MoveForward(), value);
+                break;
+            case "reverse":
+                RebindKey(new MoveReverse(), value);
+                break;
+            case "left":
+                RebindKey(new MoveLeft(), value);
+                break;
+            case "right":
+                RebindKey(new MoveRight(), value);
+                break;
+        }
+    }
+
+    private void RebindKey(Command action, int value)
+    {
+        switch(value)
+        {
+            case 0:
+                buttonW = action;
+                break;
+            case 1:
+                buttonA = action;
+                break;
+            case 2:
+                buttonS = action;
+                break;
+            case 3:
+                buttonD = action;
+                break;
+        }
     }
 }

@@ -20,10 +20,12 @@ public class WorldGrid : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        // Draw grid of boxes
         for(int w = 0; w < width; w++)
         {
             for(int h = 0; h < height; h++)
             {
+                // Draw a black box if the box was traversed
                 if (gridData != null && gridData[w, h] == 1)
                 {
                     Gizmos.color = new Color(0, 0, 0, 1);

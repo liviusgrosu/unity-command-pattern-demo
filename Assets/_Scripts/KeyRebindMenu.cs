@@ -9,6 +9,7 @@ public class KeyRebindMenu : MonoBehaviour
     public Dropdown ForwardDropdown, ReverseDropdown, LeftDrowdown, RightDropdown, UndoDropdown, ReplayDropdown;
     void Start()
     {
+        // Add listeners to dropdowns
         ForwardDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ForwardDropdown); });
         ReverseDropdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(ReverseDropdown); });
         LeftDrowdown.onValueChanged.AddListener(delegate { keyRebindDropdownHandler(LeftDrowdown); });
@@ -19,6 +20,7 @@ public class KeyRebindMenu : MonoBehaviour
 
     void Update()
     {
+        // Toggle the keybinding menu
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             foreach (Transform child in transform)
@@ -30,31 +32,38 @@ public class KeyRebindMenu : MonoBehaviour
 
     void Destroy() 
     {
+        // Remove all listeners to dropdown
         ForwardDropdown.onValueChanged.RemoveAllListeners();
     }
     
     private void keyRebindDropdownHandler(Dropdown target) 
     {
+        // Change FORWARD key
         if (ForwardDropdown == target)
         {
             inputHandler.RebindKey("forward", target.value);
         }
+        // Change REVERSE key
         else if (ReverseDropdown == target)
         {
             inputHandler.RebindKey("reverse", target.value);
         }
+        // Change LEFT key
         else if (LeftDrowdown == target)
         {
             inputHandler.RebindKey("left", target.value);
         }
+        // Change RIGHT key
         else if (RightDropdown == target)
         {
             inputHandler.RebindKey("right", target.value);
         }
+        // Change UNDO key
         else if (UndoDropdown == target)
         {
             inputHandler.RebindKey("undo", target.value);
         }
+        // Change REPLAY key
         else if (ReplayDropdown == target)
         {
             inputHandler.RebindKey("replay", target.value);

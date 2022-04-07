@@ -137,6 +137,7 @@ public class InputHandler : MonoBehaviour, ICommand
         return grid.IsWithinBoundary(nextPos);
     }
 
+    // Rebind key from dropdown input
     public void RebindKey(string key, int value)
     {
         switch(key)
@@ -162,6 +163,7 @@ public class InputHandler : MonoBehaviour, ICommand
         }
     }
 
+    // Change the keybinding from selected dropwdown and value
     private void RebindKey(Command action, int value)
     {
         switch(value)
